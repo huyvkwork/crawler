@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .product-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-table th,
+        .product-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .product-table td.price {
+            white-space: nowrap;
+        }
+
+        .product-table th {
+            background-color: #f2f2f2;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .product-table img {
+            max-width: 80px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .product-table td.price {
+            width: 100px;
+            white-space: nowrap;
+            font-size: 14px;
+        }
+
+        .pagination {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .pagination a,
+        .pagination .active {
+            display: inline-block;
+            padding: 8px 12px;
+            margin: 0 3px;
+            text-decoration: none;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+            font-size: 14px;
+        }
+
+        .pagination a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .pagination .active {
+            background-color: #333;
+            color: white;
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 768px) {
+
+            .product-table th,
+            .product-table td {
+                padding: 8px;
+            }
+
+            .product-table th {
+                font-size: 12px;
+            }
+
+            .product-table img {
+                max-width: 60px;
+            }
+
+            .product-table td.price {
+                width: 80px;
+                font-size: 12px;
+            }
+
+            .pagination a,
+            .pagination .active {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Product List</h1>
+        <table class="product-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% products.forEach((product,index)=> { %>
+                    <tr>
+                        <td>
+                            <%= index+1 %>
+                        </td>
+                        <td><img src="<%= product.image %>" alt="<%= product.name %>"></td>
+                        <td>
+                            <%= product.name %>
+                        </td>
+                        <td class="price">
+                            <%= product.price %>
+                        </td>
+                    </tr>
+                    <% }); %>
+            </tbody>
+        </table>
+        <div class="pagination">
+            <% if (page> 1) { %>
+                <a href="/?page=1&limit=<%= limit %>">&laquo; First</a>
+                <a href="/?page=<%= parseInt(page) - 1 %>&limit=<%= limit %>">&lsaquo; Previous</a>
+                <% } %>
+                    <% const startPage=Math.max(1, page - 2); %>
+                        <% const endPage=Math.min(totalPages, startPage + 4); %>
+                            <% for (let i=startPage; i <=endPage; i++) { %>
+                                <% if (i===page) { %>
+                                    <span class="active">
+                                        <%= i %>
+                                    </span>
+                                    <% } else { %>
+                                        <a href="/?page=<%= i %>&limit=<%= limit %>">
+                                            <%= i %>
+                                        </a>
+                                        <% } %>
+                                            <% } %>
+                                                <% if (page < totalPages) { %>
+                                                    <a href="/?page=<%= parseInt(page) + 1 %>&limit=<%= limit %>">Next
+                                                        &rsaquo;</a>
+                                                    <a href="/?page=<%= totalPages %>&limit=<%= limit %>">Last
+                                                        &raquo;</a>
+                                                    <% } %>
+        </div>
+    </div>
+
+</body>
+
+</html>
